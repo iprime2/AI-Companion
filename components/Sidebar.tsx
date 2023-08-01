@@ -10,7 +10,7 @@ interface SidebarProps {}
 
 const routes = [
   { icon: HomeIcon, label: 'Home', href: '/', pro: false },
-  { icon: PlusIcon, label: 'Create', href: '//companion/new', pro: true },
+  { icon: PlusIcon, label: 'Create', href: '/companion/new', pro: true },
   { icon: SettingsIcon, label: 'Settings', href: '/settings', pro: false },
 ]
 
