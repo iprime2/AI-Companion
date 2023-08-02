@@ -1,8 +1,8 @@
 'use client'
 
-import { FC, useEffect, useState } from 'react'
-import { CldUploadButton } from 'next-cloudinary'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { CldUploadButton } from 'next-cloudinary'
 
 interface ImageUploadProps {
   value: string
@@ -10,34 +10,54 @@ interface ImageUploadProps {
   disabled?: boolean
 }
 
-const ImageUpload: FC<ImageUploadProps> = ({ value, onChange, disabled }) => {
-  const [mounted, setMounted] = useState(false)
+export const ImageUpload = ({
+  value,
+  onChange,
+  disabled,
+}: ImageUploadProps) => {
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
-  }, [mounted])
+    setIsMounted(true)
+  }, [])
 
-  if (!mounted) return null
+  if (!isMounted) {
+    return false
+  }
 
   return (
-    <div className='space-y-4 w-full flex flex-start justify-center items-center'>
+    <div className='space-y-4 w-full flex flex-col justify-center items-center'>
       <CldUploadButton
-        options={{
-          maxFiles: 1,
-        }}
+        options={{ maxFiles: 1 }}
+        onUpload={(result: any) => onChange(result.info.secure_url)}
         uploadPreset='ai-companion'
       >
-        <div className='p-4 border-4 border-dashed border-primary/10 rounded-lg hover:opacity-75 transition flex flex-col space-y-2 items-center justify-center'>
-          <Image
-            fill
-            alt='Upload'
-            src='/placeholder.svg'
-            className='rounded-lg object-cover'
-          />
+        <div
+          className='
+            p-4 
+            border-4 
+            border-dashed
+            border-primary/10 
+            rounded-lg 
+            hover:opacity-75 
+            transition 
+            flex 
+            flex-col 
+            space-y-2 
+            items-center 
+            justify-center
+          '
+        >
+          <div className='relative h-40 w-40'>
+            <Image
+              fill
+              alt='Upload'
+              src={value || '/placeholder.svg'}
+              className='rounded-lg object-cover'
+            />
+          </div>
         </div>
       </CldUploadButton>
     </div>
   )
 }
-
-export default ImageUpload
