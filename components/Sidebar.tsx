@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 import { useProModal } from '@/hooks/useProModal'
 
 interface SidebarProps {
-  isPro: boolean
+  isPro?: boolean
 }
 
 const routes = [
