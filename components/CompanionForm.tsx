@@ -33,7 +33,7 @@ import { Button } from './ui/button'
 import { toast } from './ui/use-toast'
 
 interface CompanionFormProps {
-  initialData: Companion
+  initialData?: Companion
   categories?: category[]
 }
 
