@@ -32,23 +32,27 @@ export class MemoryManager {
     recentChatHistory: string,
     companionFileName: string
   ) {
-    const pineconeClient = <PineconeClient>this.vectorDBClient
+    try {
+      const pineconeClient = <PineconeClient>this.vectorDBClient
 
-    const pineconeIndex = pineconeClient.Index(
-      process.env.PINECONE_INDEX! || ''
-    )
+      const pineconeIndex = pineconeClient.Index(
+        process.env.PINECONE_INDEX! || ''
+      )
 
-    const vectorStore = await PineconeStore.fromExistingIndex(
-      new OpenAIEmbeddings({ openAIApiKey: process.env.OPENAI_API_KEY }),
-      { pineconeIndex }
-    )
+      const vectorStore = await PineconeStore.fromExistingIndex(
+        new OpenAIEmbeddings({ openAIApiKey: process.env.OPENAI_AI_KEY }),
+        { pineconeIndex }
+      )
 
-    const similarDocs = await vectorStore
-      .similaritySearch(recentChatHistory, 3, { fileName: companionFileName })
-      .catch((err) => {
-        console.log('WARNING: failed to get vector search results.', err)
-      })
-    return similarDocs
+      const similarDocs = await vectorStore
+        .similaritySearch(recentChatHistory, 3, { fileName: companionFileName })
+        .catch((err) => {
+          console.log('WARNING: failed to get vector search results.', err)
+        })
+      return similarDocs
+    } catch (error) {
+      console.log('[VECTOR_SEARCH]', error)
+    }
   }
 
   public static async getInstance(): Promise<MemoryManager> {
