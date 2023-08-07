@@ -1,6 +1,7 @@
 import { auth, currentUser } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
 import prismadb from '@/lib/prismadb'
+import { checkSubscription } from '@/lib/subscription'
 
 export async function PATCH(
   req: Request,
@@ -31,12 +32,16 @@ export async function PATCH(
       return new NextResponse('Missing required Fields', { status: 400 })
     }
 
-    // TODO : Check for subscription
+    const isPro = await checkSubscription()
+
+    if (!isPro) {
+      return new NextResponse('Pro Subscription id required', { status: 403 })
+    }
 
     const companion = await prismadb.companion.update({
       where: {
         id: params.companionId,
-        userId:user.id
+        userId: user.id,
       },
       data: {
         src,

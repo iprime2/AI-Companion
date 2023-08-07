@@ -5,8 +5,11 @@ import { FC } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 
 import { cn } from '@/lib/utils'
+import { useProModal } from '@/hooks/useProModal'
 
-interface SidebarProps {}
+interface SidebarProps {
+  isPro: boolean
+}
 
 const routes = [
   { icon: HomeIcon, label: 'Home', href: '/', pro: false },
@@ -14,12 +17,15 @@ const routes = [
   { icon: SettingsIcon, label: 'Settings', href: '/settings', pro: false },
 ]
 
-const Sidebar: FC<SidebarProps> = ({}) => {
+const Sidebar: FC<SidebarProps> = ({ isPro }) => {
   const pathname = usePathname()
   const router = useRouter()
+  const proModal = useProModal()
 
   const onNavigate = (url: string, pro: boolean) => {
-    // TODO Check if user is pro
+    if (pro && !isPro) {
+      return proModal.onOpen()
+    }
 
     return router.push(url)
   }

@@ -10,15 +10,19 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components//ui/button'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import MobileSidebar from '@/components//MobileSidebar'
+import { useProModal } from '@/hooks/useProModal'
 
-interface NavbarProps {}
+interface NavbarProps {
+  isPro: boolean
+}
 
 const font = Poppins({
   weight: '600',
   subsets: ['latin'],
 })
 
-const Navbar: FC<NavbarProps> = ({}) => {
+const Navbar: FC<NavbarProps> = ({ isPro }) => {
+  const proModal = useProModal()
   return (
     <div className='fixed w-full z-50 flex justify-between items-center py-2 px-4 border-b border-primary/10 bg-secondary h-16'>
       <div className='flex items-center'>
@@ -35,9 +39,12 @@ const Navbar: FC<NavbarProps> = ({}) => {
         </Link>
       </div>
       <div className='flex items-center gap-x-2'>
-        <Button size='sm' variant='premium'>
-          Upgrade <SparkleIcon className='w-4 h-4 fill-white text-white ml-2' />
-        </Button>
+        {!isPro && (
+          <Button size='sm' variant='premium' onClick={proModal.onOpen}>
+            Upgrade{' '}
+            <SparkleIcon className='w-4 h-4 fill-white text-white ml-2' />
+          </Button>
+        )}
         <ThemeToggle />
         <UserButton afterSignOutUrl='/' />
       </div>
