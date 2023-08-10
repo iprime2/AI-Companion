@@ -6,8 +6,8 @@
 
 - I have used Shadcn UI for the AI-Companion web app!
 - You will be able to log in using Clerk Authentication!
-- Create, Edit, Delete your role model companion chatbot.
-- I have used OpenAI and Replicate APIs
+- Create, Edit, and delete your role model companion chatbot.
+- I have used OpenAI and Replicate APIs for creation of chatbots
 - Pro membership to access unlimited chat with chatbot
 - Tailwind design
 - Tailwind animations and effects
